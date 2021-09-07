@@ -6,6 +6,7 @@
 #define KMIND_KMMAINWINDOW_H
 
 #include <QMainWindow>
+#include "../core/kmNode.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class kmMainWindow; }
@@ -24,8 +25,12 @@ private slots:
 
     void displayOutline();
 
+    void resizeEvent(QResizeEvent * event) override;
+
 private:
     Ui::kmMainWindow *ui;
+    kmNode *m_baseNode;
+    kmNode *m_selectedNode;
 };
 
 

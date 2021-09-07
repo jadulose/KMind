@@ -7,6 +7,7 @@
 
 #include <QLabel>
 #include <QList>
+#include "../painter/style.h"
 
 enum class kmNodeType {
     BaseTopic, MainTopic, SubTopic, FloatTopic
@@ -16,21 +17,23 @@ class kmNode : public QLabel {
 Q_OBJECT
 
 public:
-    explicit kmNode(QWidget *parent = nullptr, kmNode *parentNode = nullptr,
-           int index = 0, int level = 0, kmNodeType type = kmNodeType::SubTopic);
+    explicit kmNode(QWidget *parent, kmNode *parentNode, int index, int level, kmNodeType type);
 
     ~kmNode() override;
 
-    void newTopicAfter();
+//    void newTopicAfter();
 
-    void newTopicBefore();
+//    void newTopicBefore();
 
     void newSubtopic();
+
+    const QList<kmNode *> &getChildren() const;
 
 private:
     kmNodeType m_type;
     int m_level;
     int m_index;
+    Style *m_style=nullptr;
 
     QWidget *m_parent;
     kmNode *m_parentNode;

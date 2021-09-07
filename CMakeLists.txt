@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
         kmind.cpp
         gui/kmMainWindow.cpp gui/kmMainWindow.h gui/kmMainWindow.ui
         core/kmNode.cpp core/kmNode.h
+        painter/style.cpp painter/style.h painter/painter.cpp painter/painter.h
+        gui/kmPaintWidget.cpp gui/kmPaintWidget.h
+        painter/styleUtil.cpp painter/styleUtil.h
         )
 
 if (NOT DEBUG_SUFFIX MATCHES "d")

@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.21)
 project(KMind)
 
 # Your config.cmake should contain at least the following properties:
-#set(PROJECT_DIR "~/repository/Phantom3")
-#set(CMAKE_CXX_STANDARD 20)
+set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_PREFIX_PATH "~/package/Qt/6.0.3/gcc_64/lib/cmake")
 #set(QT_VERSION 6)
 include(config.cmake)
@@ -31,7 +31,7 @@ set(CMAKE_AUTOUIC ON)
 
 # Required Qt Libraries
 set(REQUIRED_LIBS Core Gui Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
+set(REQUIRED_LIBS_QUALIFIED Qt${QT_VERSION}::Core Qt${QT_VERSION}::Gui Qt${QT_VERSION}::Widgets)
 
 # Project sources
 set(PROJECT_SOURCES

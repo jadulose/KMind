@@ -7,17 +7,13 @@
 
 #include <QLabel>
 #include <QList>
-#include "../painter/style.h"
-
-enum class kmNodeType {
-    BaseTopic, MainTopic, SubTopic, FloatTopic
-};
+#include "../painter/formwork.h"
 
 class kmNode : public QLabel {
 Q_OBJECT
 
 public:
-    explicit kmNode(QWidget *parent, kmNode *parentNode, int index, int level, kmNodeType type);
+    explicit kmNode(QWidget *parent, kmNode *parentNode, Skeleton *skeleton, int index, int level, kmNodeType type);
 
     ~kmNode() override;
 
@@ -29,14 +25,17 @@ public:
 
     const QList<kmNode *> &getChildren() const;
 
+    const Style &getStyle() const;
+
 private:
     kmNodeType m_type;
     int m_level;
     int m_index;
-    Style *m_style=nullptr;
+    Style m_style;
 
     QWidget *m_parent;
     kmNode *m_parentNode;
+    Skeleton *m_skeleton;
     QList<kmNode *> m_children;
 };
 

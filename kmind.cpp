@@ -5,6 +5,9 @@
 #include <QApplication>
 #include "gui/kmMainWindow.h"
 
+QList<Shape *> Shape::ALL_SHAPE = QList<Shape *>();
+QList<Skeleton *> Skeleton::ALL_SKELETON = QList<Skeleton *>();
+
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     kmMainWindow mainWindow;

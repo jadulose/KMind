@@ -5,15 +5,20 @@
 #ifndef KMIND_STYLE_H
 #define KMIND_STYLE_H
 
-#include <QList>
 #include "styleUtil.h"
 
 class Style {
 public:
-//    static QList<Style *> ALL_STYLE;
-//    static QList<Shape *> ALL_SHAPE;
+    static Style copy_style(Style *style);
+
+    Style();
+
+    ~Style();
+
+    void setShape(Shape *shape);
 
 private:
+    bool isNotDefault = false;
     State m_state;
     Shape *m_shape;
 };

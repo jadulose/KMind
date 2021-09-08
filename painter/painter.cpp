@@ -3,7 +3,6 @@
 //
 
 #include "painter.h"
-#include "styleUtil.h"
 
 Painter::Painter(QWidget *container, QWidget *parent, kmNode *base_node)
         : m_container(container), m_parent(parent), m_baseNode(base_node) {

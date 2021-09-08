@@ -18,8 +18,9 @@ inline QString defaultText(kmNodeType type) {
     }
 }
 
-kmNode::kmNode(QWidget *parent, kmNode *parentNode, int index, int level, kmNodeType type)
-        : QLabel(parent), m_parentNode(parentNode), m_index(index), m_level(level), m_type(type) {
+kmNode::kmNode(QWidget *parent, kmNode *parentNode, Skeleton *skeleton, int index, int level, kmNodeType type)
+        : QLabel(parent), m_parentNode(parentNode), m_skeleton(skeleton),
+        m_index(index), m_level(level), m_type(type), m_style(Style::copy_style(skeleton->getStyle(type))) {
     m_parent = parent;
 
     QString text = defaultText(m_type);
@@ -42,14 +43,18 @@ kmNode::~kmNode() {
 void kmNode::newSubtopic() {
     int level = m_level + 1;
     kmNodeType type;
-    if (level == 2 && m_type != kmNodeType::BaseTopic)
+    if (level == 2 && m_type == kmNodeType::BaseTopic)
         type = kmNodeType::MainTopic;
     else
         type = kmNodeType::SubTopic;
-    auto *node = new kmNode(m_parent, this, (int) m_children.size() + 1, level, type);
+    auto *node = new kmNode(m_parent, this, m_skeleton, (int) m_children.size() + 1, level, type);
     m_children.append(node);
 }
 
 const QList<kmNode *> &kmNode::getChildren() const {
     return m_children;
+}
+
+const Style &kmNode::getStyle() const {
+    return m_style;
 }

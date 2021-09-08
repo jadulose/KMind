@@ -6,7 +6,6 @@
 #define KMIND_PAINTER_H
 
 #include <QPainter>
-#include "style.h"
 #include "../core/kmNode.h"
 
 class Painter {

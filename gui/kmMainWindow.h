@@ -25,7 +25,9 @@ private slots:
 
     void displayOutline();
 
-    void resizeEvent(QResizeEvent * event) override;
+//    void resizeEvent(QResizeEvent * event) override;
+
+    void setScrollBarPos(int v, int h);
 
 private:
     Ui::kmMainWindow *ui;

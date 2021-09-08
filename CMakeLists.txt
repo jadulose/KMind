@@ -36,11 +36,12 @@ set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
 # Project sources
 set(PROJECT_SOURCES
         kmind.cpp
-        gui/kmMainWindow.cpp gui/kmMainWindow.h gui/kmMainWindow.ui
-        core/kmNode.cpp core/kmNode.h
-        painter/style.cpp painter/style.h painter/painter.cpp painter/painter.h
-        gui/kmPaintWidget.cpp gui/kmPaintWidget.h
-        painter/styleUtil.cpp painter/styleUtil.h
+        gui/kmMainWindow.cpp gui/kmMainWindow.ui
+        core/kmNode.cpp painter/style.cpp painter/painter.cpp
+        gui/kmPaintWidget.cpp painter/styleUtil.cpp painter/formwork.cpp
+        gui/kmMainWindow.h core/kmNode.h painter/style.h painter/painter.h
+        gui/kmPaintWidget.h painter/styleUtil.h painter/formwork.h
+        core/kmNodeType.h
         )
 
 if (NOT DEBUG_SUFFIX MATCHES "d")

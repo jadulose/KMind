@@ -7,7 +7,8 @@
 
 #include <QPainter>
 #include <QRect>
-#include "../core/kmNode.h"
+#include <QList>
+#include <QLabel>
 
 enum class State {
     VeryImportant, Important, CrossOut, Default
@@ -19,7 +20,9 @@ enum class LineWidth {
 
 class Shape {
 public:
-    explicit Shape(double x_ratio=12, double y_ratio=10, double w_ratio=12, double h_ratio=10,
+    static QList<Shape *> ALL_SHAPE;
+
+    Shape(double x_ratio=12, double y_ratio=10, double w_ratio=12, double h_ratio=10,
                    double inP_x_ratio=0, double inP_y_ratio=0.5, double outP_x_ratio=1, double outP_y_ratio=0.5);
 
     QRect getRect(const QSize &content_size);

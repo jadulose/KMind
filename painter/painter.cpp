@@ -8,11 +8,11 @@ Painter::Painter(QWidget *container, QWidget *parent, kmNode *base_node)
         : m_container(container), m_parent(parent), m_baseNode(base_node) {
 }
 
-inline void moveTo(QLabel *label, int x, int y) {
+inline void moveTo(QWidget *label, int x, int y) {
     label->move(x - label->width() / 2, y - label->height() / 2);
 }
 
-inline void moveLeftTo(QLabel *label, int x, int y) {
+inline void moveLeftTo(QWidget *label, int x, int y) {
     label->move(x, y - label->height() / 2);
 }
 

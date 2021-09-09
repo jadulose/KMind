@@ -22,10 +22,10 @@ class Shape {
 public:
     static QList<Shape *> ALL_SHAPE;
 
-    Shape(double x_ratio=12, double y_ratio=10, double w_ratio=12, double h_ratio=10,
+    explicit Shape(double x_ratio=12, double y_ratio=10, double w_ratio=12, double h_ratio=10,
                    double inP_x_ratio=0, double inP_y_ratio=0.5, double outP_x_ratio=1, double outP_y_ratio=0.5);
 
-    QRect getRect(const QSize &content_size);
+    [[nodiscard]] QRect getRect(const QSize &content_size) const;
 
     QPoint getInPoint(const QSize &outer_size);
 

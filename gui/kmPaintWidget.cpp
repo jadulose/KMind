@@ -26,7 +26,7 @@ void kmPaintWidget::paintEvent(QPaintEvent *event) {
     this->style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
     m_painter->paint(&painter, event);
     if (m_NotFirstOpen) {
-        emit scrollBarPosNeedChange(50, 50);
+        emit scrollBarPosNeedChange(5000, 5000);
         m_NotFirstOpen = false;
     }
 }

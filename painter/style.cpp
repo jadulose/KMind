@@ -31,3 +31,6 @@ Style::~Style() {
     if (isNotDefault)
         delete m_shape;
 }
+
+Style::Style(Shape *shape) : m_state(State::Default), m_shape(shape) {
+}

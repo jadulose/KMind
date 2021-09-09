@@ -7,7 +7,7 @@
 
 // 注意：边界的距离并不是倍数关系，有的是固定长度，有的则是其他形式
 
-QRect Shape::getRect(const QSize &content_size) {
+QRect Shape::getRect(const QSize &content_size) const {
     int w = content_size.width(), h = content_size.height();
     return QRect(x_ratio, y_ratio, 2 * w_ratio + w, 2 * h_ratio + h);
 }

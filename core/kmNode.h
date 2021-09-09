@@ -9,7 +9,7 @@
 #include <QList>
 #include "../painter/formwork.h"
 
-class kmNode : public QLabel {
+class kmNode : public QWidget {
 Q_OBJECT
 
 public:
@@ -23,20 +23,36 @@ public:
 
     void newSubtopic();
 
-    const QList<kmNode *> &getChildren() const;
+    [[nodiscard]] const QList<kmNode *> &getChildren() const;
 
-    const Style &getStyle() const;
+    [[nodiscard]] const Style &getStyle() const;
+
+signals:
+
+    void scrollBarBeginMove();
+    void scrollBarPosUpdate(double v, double h);
+
+private slots:
+
+    void mousePressEvent(QMouseEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+//    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
     kmNodeType m_type;
     int m_level;
     int m_index;
     Style m_style;
+    QLabel *m_label;
 
     QWidget *m_parent;
     kmNode *m_parentNode;
     Skeleton *m_skeleton;
     QList<kmNode *> m_children;
+
+    QPointF m_lastMousePosition;
 };
 
 

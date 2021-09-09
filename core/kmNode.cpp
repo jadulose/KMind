@@ -3,6 +3,7 @@
 //
 
 #include <QtWidgets/QApplication>
+#include <QMouseEvent>
 #include "kmNode.h"
 
 inline QString defaultText(kmNodeType type) {
@@ -19,8 +20,8 @@ inline QString defaultText(kmNodeType type) {
 }
 
 kmNode::kmNode(QWidget *parent, kmNode *parentNode, Skeleton *skeleton, int index, int level, kmNodeType type)
-        : QLabel(parent), m_parentNode(parentNode), m_skeleton(skeleton),
-        m_index(index), m_level(level), m_type(type), m_style(Style::copy_style(skeleton->getStyle(type))) {
+        : QWidget(parent), m_label(new QLabel(this)), m_parentNode(parentNode), m_skeleton(skeleton),
+          m_index(index), m_level(level), m_type(type), m_style(Style::copy_style(skeleton->getStyle(type))) {
     m_parent = parent;
 
     QString text = defaultText(m_type);
@@ -28,16 +29,20 @@ kmNode::kmNode(QWidget *parent, kmNode *parentNode, Skeleton *skeleton, int inde
         text.append(" ");
         text.append(QString::number(m_index));
     }
-    this->setText(text);
+    m_label->setText(text);
+    QRect need_rect = m_style.getShape()->getRect(m_label->size());
+    this->setFixedWidth(need_rect.width());
+    this->setFixedHeight(need_rect.height() + 100);
+    m_label->move(need_rect.topLeft());
 
     this->setStyleSheet(QString::fromUtf8("background-color:rgb(255, 170, 255)"));
 }
 
 kmNode::~kmNode() {
     for (const auto &node: m_children) {
-        node->deleteLater();
         delete node;
     }
+    delete m_label;
 }
 
 void kmNode::newSubtopic() {
@@ -58,3 +63,26 @@ const QList<kmNode *> &kmNode::getChildren() const {
 const Style &kmNode::getStyle() const {
     return m_style;
 }
+
+void kmNode::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        m_lastMousePosition = event->globalPosition();
+        qDebug() << "position set to " << m_lastMousePosition.x() << " " << m_lastMousePosition.y();
+        emit scrollBarBeginMove();
+    }
+    event->ignore();
+}
+
+void kmNode::mouseMoveEvent(QMouseEvent *event) {
+    if (m_type == kmNodeType::BaseTopic && event->buttons().testFlag(Qt::LeftButton)) {
+        emit scrollBarPosUpdate(event->globalPosition().x() - m_lastMousePosition.x(),
+                                event->globalPosition().y() - m_lastMousePosition.y());
+    }
+    event->ignore();
+}
+
+//void kmNode::mouseReleaseEvent(QMouseEvent *event) {
+//    if (event->button() == Qt::LeftButton)
+//        emit scrollBarEndMove();
+//    event->ignore();
+//}

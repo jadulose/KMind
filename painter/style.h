@@ -13,9 +13,13 @@ public:
 
     Style();
 
+    explicit Style(Shape *shape);
+
     ~Style();
 
     void setShape(Shape *shape);
+
+    [[nodiscard]] Shape *getShape() const { return m_shape; }
 
 private:
     bool isNotDefault = false;

@@ -20,14 +20,14 @@ QPoint Shape::getOutPoint(const QSize &outer_size) {
     return QPoint(outer_size.width() * outP_x_ratio, outer_size.height() * outP_y_ratio);
 }
 
-void Shape::paint(QPainter *painter, QLabel *label) {
+void Shape::paint(QPainter *painter, const QWidget *widget) {
     painter->save();
-    QRect rec_l = label->geometry();
+    QRect rec_l = widget->geometry();
     const qreal radius = 5;
     QPainterPath path;
-    QRectF rect = QRect(rec_l.left() - x_ratio + 2, rec_l.top() - y_ratio + 2,
-                        2 * w_ratio + rec_l.width(), 2 * h_ratio + rec_l.height());
-    path.moveTo(rect.topRight()-QPointF(radius,0));
+    QRectF rect = QRect(rec_l.left() + 2, rec_l.top() + 2,
+                        rec_l.width() - 4, rec_l.height() - 4);
+    path.moveTo(rect.topRight() - QPointF(radius, 0));
     path.moveTo(rect.topRight() - QPointF(radius, 0));
     path.lineTo(rect.topLeft() + QPointF(radius, 0));
     path.quadTo(rect.topLeft(), rect.topLeft() + QPointF(0, radius));

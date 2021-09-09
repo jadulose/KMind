@@ -27,9 +27,14 @@ public:
 
     [[nodiscard]] const Style &getStyle() const;
 
+    void setPreferredSize();
+
+//    [[nodiscard]] const QLabel *getLabel() const { return m_label; }
+
 signals:
 
     void scrollBarBeginMove();
+
     void scrollBarPosUpdate(double v, double h);
 
 private slots:

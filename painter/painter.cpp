@@ -17,6 +17,9 @@ inline void moveLeftTo(QWidget *label, int x, int y) {
 }
 
 void Painter::paint(QPainter *painter, QPaintEvent *event) {
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setPen(Qt::darkGreen);
+
     const auto &node_list = m_baseNode->getChildren();
     int width = 100;
     int height = 50 * node_list.size() + 50;
@@ -25,6 +28,7 @@ void Painter::paint(QPainter *painter, QPaintEvent *event) {
 
     int middle_x = m_parent->width() / 2, middle_y = m_parent->height() / 2;
     moveTo(m_baseNode, middle_x, middle_y);
+    m_baseNode->getStyle().getShape()->paint(painter, m_baseNode);
     int w_sep = m_baseNode->width() / 2 + 50;
     int h_sep = 50;
     int start_x = middle_x + w_sep;
@@ -37,10 +41,7 @@ void Painter::paint(QPainter *painter, QPaintEvent *event) {
     for (auto &node: node_list) {
         moveLeftTo(node, start_x, start_y);
         start_y += h_sep;
+        node->getStyle().getShape()->paint(painter, node);
     }
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->setPen(Qt::darkGreen);
-    painter->drawLine(middle_x - 100, middle_y - 100, middle_x + 100, middle_y + 100);
-//    Shape shape;
-//    shape.paint(painter, m_baseNode);
+//    painter->drawLine(middle_x - 100, middle_y - 100, middle_x + 100, middle_y + 100);
 }

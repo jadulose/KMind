@@ -30,10 +30,7 @@ kmNode::kmNode(QWidget *parent, kmNode *parentNode, Skeleton *skeleton, int inde
         text.append(QString::number(m_index));
     }
     m_label->setText(text);
-    QRect need_rect = m_style.getShape()->getRect(m_label->size());
-    this->setFixedWidth(need_rect.width());
-    this->setFixedHeight(need_rect.height() + 100);
-    m_label->move(need_rect.topLeft());
+    setPreferredSize();
 
     this->setStyleSheet(QString::fromUtf8("background-color:rgb(255, 170, 255)"));
 }
@@ -79,6 +76,13 @@ void kmNode::mouseMoveEvent(QMouseEvent *event) {
                                 event->globalPosition().y() - m_lastMousePosition.y());
     }
     event->ignore();
+}
+
+void kmNode::setPreferredSize() {
+    QRect need_rect = m_style.getShape()->getRect(m_label->size());
+    this->setFixedWidth(need_rect.width());
+    this->setFixedHeight(need_rect.height());
+    m_label->move(need_rect.topLeft());
 }
 
 //void kmNode::mouseReleaseEvent(QMouseEvent *event) {

@@ -11,6 +11,7 @@
 kmMainWindow::kmMainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::kmMainWindow) {
     ui->setupUi(this);
+    ui->tabWidget->setVisible(false);
 
 //    读取，加载样式信息的代码暂时放在这
     auto shape = new Shape();
@@ -34,6 +35,7 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
     connect(ui->actionOutliner, SIGNAL(triggered(bool)), this, SLOT(displayOutline()));
     connect(ui->scrollAreaWidgetContents, SIGNAL(scrollBarPosNeedChange(int, int)),
             this, SLOT(setScrollBarPos(int, int)));
+    connect(ui->pushButton_Panel, SIGNAL(clicked(bool)), this, SLOT(switchPanel()));
     connect(m_baseNode, SIGNAL(scrollBarBeginMove()), this, SLOT(beginScrollBarMove()));
     connect(m_baseNode, SIGNAL(scrollBarPosUpdate(double, double)), this, SLOT(moveScrollBarPos(double, double)));
 }
@@ -75,6 +77,10 @@ void kmMainWindow::moveScrollBarPos(double v, double h) {
 void kmMainWindow::beginScrollBarMove() {
     m_lastScrollBarPos.setX(ui->scrollArea->horizontalScrollBar()->value());
     m_lastScrollBarPos.setY(ui->scrollArea->verticalScrollBar()->value());
+}
+
+void kmMainWindow::switchPanel() {
+    ui->tabWidget->setVisible(!ui->tabWidget->isVisible());
 }
 
 //void kmMainWindow::resizeEvent(QResizeEvent *event) {

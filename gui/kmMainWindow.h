@@ -25,6 +25,8 @@ private slots:
 
     void displayOutline();
 
+    void switchPanel();
+
 //    void resizeEvent(QResizeEvent * event) override;
 
     void setScrollBarPos(int v, int h);

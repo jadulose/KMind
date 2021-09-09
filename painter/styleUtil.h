@@ -31,7 +31,7 @@ public:
 
     QPoint getOutPoint(const QSize &outer_size);
 
-    void paint(QPainter *painter, QLabel *label);
+    void paint(QPainter *painter, const QWidget *widget);
 
 private:
     double x_ratio, y_ratio, w_ratio, h_ratio;

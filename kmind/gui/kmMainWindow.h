@@ -6,7 +6,7 @@
 #define KMIND_KMMAINWINDOW_H
 
 #include <QMainWindow>
-#include "../core/kmNode.h"
+#include "kmNode.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class kmMainWindow; }

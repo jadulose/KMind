@@ -10,7 +10,7 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.1.2/mingw81_64/lib/cmake")
 set(QT_VERSION 6)
 #include(config.cmake)
 
-include_directories(gui libs/node libs/painter libs/typesetting python/include)
+include_directories(kmind/gui libs/node libs/painter libs/typesetting python/include)
 
 link_directories(python/libs)
 

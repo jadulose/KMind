@@ -7,7 +7,7 @@
 
 #include <QLabel>
 #include <QList>
-#include "../painter/formwork.h"
+#include "formwork.h"
 
 class kmNode : public QWidget {
 Q_OBJECT

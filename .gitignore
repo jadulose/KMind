@@ -54,3 +54,4 @@ compile_commands.json
 # User add
 /build/
 /config.cmake
+/python/

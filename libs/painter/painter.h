@@ -6,7 +6,7 @@
 #define KMIND_PAINTER_H
 
 #include <QPainter>
-#include "../core/kmNode.h"
+#include "kmNode.h"
 
 class Painter {
 public:

@@ -3,7 +3,7 @@
 //
 
 #include <QApplication>
-#include "gui/kmMainWindow.h"
+#include "kmMainWindow.h"
 
 QList<Shape *> Shape::ALL_SHAPE = QList<Shape *>();
 QList<Skeleton *> Skeleton::ALL_SKELETON = QList<Skeleton *>();

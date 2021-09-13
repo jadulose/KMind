@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.19)
 
 # Configure by yourself
 project(KMind)
@@ -6,9 +6,15 @@ project(KMind)
 # Your config.cmake should contain at least the following properties:
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_PREFIX_PATH "~/package/Qt/6.0.3/gcc_64/lib/cmake")
-#set(QT_VERSION 6)
-include(config.cmake)
+set(CMAKE_PREFIX_PATH "C:/Qt/6.1.2/mingw81_64/lib/cmake")
+set(QT_VERSION 6)
+#include(config.cmake)
+
+include_directories(kmind/gui libs/node libs/painter libs/typesetting python/include)
+
+link_directories(python/libs)
+
+link_libraries(python39)
 
 # Debug suffix
 set(DEBUG_SUFFIX)
@@ -35,13 +41,13 @@ set(REQUIRED_LIBS_QUALIFIED Qt${QT_VERSION}::Core Qt${QT_VERSION}::Gui Qt${QT_VE
 
 # Project sources
 set(PROJECT_SOURCES
-        kmind.cpp
-        gui/kmMainWindow.cpp gui/kmMainWindow.ui
-        core/kmNode.cpp painter/style.cpp painter/painter.cpp
-        gui/kmPaintWidget.cpp painter/styleUtil.cpp painter/formwork.cpp
-        gui/kmMainWindow.h core/kmNode.h painter/style.h painter/painter.h
-        gui/kmPaintWidget.h painter/styleUtil.h painter/formwork.h
-        core/kmNodeType.h
+        kmind/kmind.cpp
+        kmind/gui/kmMainWindow.cpp kmind/gui/kmMainWindow.ui
+        libs/node/kmNode.cpp libs/painter/style.cpp libs/painter/painter.cpp
+        kmind/gui/kmPaintWidget.cpp libs/painter/styleUtil.cpp libs/painter/formwork.cpp
+        kmind/gui/kmMainWindow.h libs/node/kmNode.h libs/painter/style.h libs/painter/painter.h
+        kmind/gui/kmPaintWidget.h libs/painter/styleUtil.h libs/painter/formwork.h
+        libs/node/kmNodeType.h
         )
 
 if (NOT DEBUG_SUFFIX MATCHES "d")

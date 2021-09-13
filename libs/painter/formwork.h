@@ -7,7 +7,7 @@
 
 #include <QList>
 #include "style.h"
-#include "../core/kmNodeType.h"
+#include "kmNodeType.h"
 
 class Style;
 

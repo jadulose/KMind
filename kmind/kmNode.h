@@ -21,7 +21,7 @@ public:
 
 //    void newTopicBefore();
 
-    void newSubtopic();
+    kmNode *newSubtopic();
 
     [[nodiscard]] const QList<kmNode *> &getChildren() const;
 
@@ -35,7 +35,9 @@ signals:
 
     void scrollBarBeginMove();
 
-    void scrollBarPosUpdate(double v, double h);
+    void scrollBarPosUpdate(int v, int h);
+
+    void selectedNodeChange(kmNode *node);
 
 private slots:
 
@@ -57,7 +59,7 @@ private:
     Skeleton *m_skeleton;
     QList<kmNode *> m_children;
 
-    QPointF m_lastMousePosition;
+    QPoint m_lastMousePosition;
 };
 
 

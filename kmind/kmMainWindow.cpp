@@ -24,10 +24,12 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
     Skeleton::ALL_SKELETON.append(skeleton);
 
     m_baseNode = new kmNode(ui->scrollAreaWidgetContents, nullptr, skeleton, 1, 1, kmNodeType::BaseTopic);
-    m_selectedNode = m_baseNode;
-    m_baseNode->newSubtopic();
-    m_baseNode->newSubtopic();
-    m_baseNode->newSubtopic();
+    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
+            SLOT(setSelectedNode(kmNode*)));
+    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
+            SLOT(setSelectedNode(kmNode*)));
+    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
+            SLOT(setSelectedNode(kmNode*)));
     ui->scrollAreaWidgetContents->createPainter(ui->page, m_baseNode);
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
@@ -37,7 +39,10 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
             this, SLOT(setScrollBarPos(int, int)));
     connect(ui->pushButton_Panel, SIGNAL(clicked(bool)), this, SLOT(switchPanel()));
     connect(m_baseNode, SIGNAL(scrollBarBeginMove()), this, SLOT(beginScrollBarMove()));
-    connect(m_baseNode, SIGNAL(scrollBarPosUpdate(double, double)), this, SLOT(moveScrollBarPos(double, double)));
+    connect(m_baseNode, SIGNAL(scrollBarPosUpdate(int, int)), this, SLOT(moveScrollBarPos(int, int)));
+
+    connect(m_baseNode, SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
+            SLOT(setSelectedNode(kmNode*)));
 }
 
 kmMainWindow::~kmMainWindow() {
@@ -62,16 +67,18 @@ void kmMainWindow::displayOutline() {
 
 void kmMainWindow::setScrollBarPos(int v, int h) {
     auto bar1 = ui->scrollArea->verticalScrollBar();
-    bar1->setValue((bar1->maximum() - bar1->minimum()) * v / 10000);
+    bar1->setValue((bar1->maximum() - bar1->minimum()) * h / 10000);
     auto bar2 = ui->scrollArea->horizontalScrollBar();
-    bar2->setValue((bar2->maximum() - bar2->minimum()) * h / 10000);
+    bar2->setValue((bar2->maximum() - bar2->minimum()) * v / 10000);
 }
 
-void kmMainWindow::moveScrollBarPos(double v, double h) {
+void kmMainWindow::moveScrollBarPos(int v, int h) {
     auto bar1 = ui->scrollArea->horizontalScrollBar();
-    bar1->setValue(m_lastScrollBarPos.x() - qRound((bar1->maximum() - bar1->minimum()) * v / ui->scrollArea->width()));
+    bar1->setValue(m_lastScrollBarPos.x() - (bar1->maximum() - bar1->minimum()) * v /
+                                            (ui->scrollAreaWidgetContents->width() - ui->scrollArea->width()));
     auto bar2 = ui->scrollArea->verticalScrollBar();  // 为什么y方向移动偏差这么大
-    bar2->setValue(m_lastScrollBarPos.y() - qRound((bar2->maximum() - bar2->minimum()) * h / ui->scrollArea->height()));
+    bar2->setValue(m_lastScrollBarPos.y() - (bar2->maximum() - bar2->minimum()) * h /
+                                            (ui->scrollAreaWidgetContents->height() - ui->scrollArea->height()));
 }
 
 void kmMainWindow::beginScrollBarMove() {

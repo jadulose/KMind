@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>797</width>
-    <height>514</height>
+    <width>1049</width>
+    <height>712</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,8 +81,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>662</width>
-               <height>427</height>
+               <width>879</width>
+               <height>591</height>
               </rect>
              </property>
             </widget>
@@ -193,8 +193,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>797</width>
-     <height>22</height>
+     <width>1049</width>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

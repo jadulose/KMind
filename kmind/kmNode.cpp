@@ -43,7 +43,7 @@ kmNode::~kmNode() {
     delete m_label;
 }
 
-void kmNode::newSubtopic() {
+kmNode *kmNode::newSubtopic() {
     int level = m_level + 1;
     kmNodeType type;
     if (level == 2 && m_type == kmNodeType::BaseTopic)
@@ -52,6 +52,7 @@ void kmNode::newSubtopic() {
         type = kmNodeType::SubTopic;
     auto *node = new kmNode(m_parent, this, m_skeleton, (int) m_children.size() + 1, level, type);
     m_children.append(node);
+    return node;
 }
 
 const QList<kmNode *> &kmNode::getChildren() const {
@@ -65,10 +66,10 @@ const Style &kmNode::getStyle() const {
 void kmNode::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         m_lastMousePosition = event->globalPos();
-        qDebug() << "position set to " << m_lastMousePosition.x() << " " << m_lastMousePosition.y();
         emit scrollBarBeginMove();
     }
-    event->ignore();
+    emit selectedNodeChange(this);
+    event->accept();
 }
 
 void kmNode::mouseMoveEvent(QMouseEvent *event) {
@@ -76,7 +77,7 @@ void kmNode::mouseMoveEvent(QMouseEvent *event) {
         emit scrollBarPosUpdate(event->globalPos().x() - m_lastMousePosition.x(),
                                 event->globalPos().y() - m_lastMousePosition.y());
     }
-    event->ignore();
+    event->accept();
 }
 
 void kmNode::setPreferredSize() {

@@ -9,6 +9,14 @@
 #include <QRect>
 #include <QList>
 #include <QLabel>
+#include <QPainterPath>
+
+namespace ShapeElement {
+    class RoundRectangle {
+    public:
+        static QPainterPath getPath(const QRect &rec_l);
+    };
+}
 
 enum class State {
     VeryImportant, Important, CrossOut, Default
@@ -27,9 +35,9 @@ public:
 
     [[nodiscard]] QRect getRect(const QSize &content_size) const;
 
-    QPoint getInPoint(const QSize &outer_size);
+    QPoint getInPoint(const QSize &outer_size) const;
 
-    QPoint getOutPoint(const QSize &outer_size);
+    QPoint getOutPoint(const QSize &outer_size) const;
 
     void paint(QPainter *painter, const QWidget *widget);
 

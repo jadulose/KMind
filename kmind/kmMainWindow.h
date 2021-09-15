@@ -33,12 +33,11 @@ private slots:
 
     void beginScrollBarMove();
 
-    void moveScrollBarPos(double v, double h);
+    void moveScrollBarPos(int v, int h);
 
 private:
     Ui::kmMainWindow *ui;
     kmNode *m_baseNode;
-    kmNode *m_selectedNode;
 
     QPoint m_lastScrollBarPos;
 };

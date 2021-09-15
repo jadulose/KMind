@@ -2,9 +2,9 @@
 set(PROJECT_SOURCES
         kmind.cpp
         kmMainWindow.cpp kmMainWindow.ui kmMainWindow.h
-        kmNode.cpp style.cpp painter.cpp
+        kmNode.cpp style.cpp
         kmPaintWidget.cpp styleUtil.cpp formwork.cpp
-        kmPaintWidget.h kmNode.h style.h painter.h
+        kmPaintWidget.h kmNode.h style.h
         styleUtil.h formwork.h
         kmNodeType.h
         )

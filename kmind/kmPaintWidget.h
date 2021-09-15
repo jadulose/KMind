@@ -6,7 +6,7 @@
 #define KMIND_KMPAINTWIDGET_H
 
 #include <QWidget>
-#include "painter.h"
+#include "kmNode.h"
 
 class kmPaintWidget : public QWidget {
 Q_OBJECT
@@ -18,6 +18,8 @@ public:
 
     void createPainter(QWidget *content, kmNode *base_node);
 
+    void paint(QPainter *painter, QPaintEvent *event);
+
 signals:
 
     void scrollBarPosNeedChange(int v, int h);
@@ -26,8 +28,16 @@ private slots:
 
     void paintEvent(QPaintEvent *event) override;
 
+    void mousePressEvent(QMouseEvent *event) override;
+
+public slots:
+
+    void setSelectedNode(kmNode *node);
+
 private:
-    Painter *m_painter = nullptr;
+    QWidget *m_container;
+    kmNode *m_baseNode;
+    kmNode *m_selectedNode;
     bool m_NotFirstOpen = true;
 };
 

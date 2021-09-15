@@ -6,7 +6,7 @@
 #define KMIND_KMPAINTWIDGET_H
 
 #include <QWidget>
-#include "../painter/painter.h"
+#include "painter.h"
 
 class kmPaintWidget : public QWidget {
 Q_OBJECT

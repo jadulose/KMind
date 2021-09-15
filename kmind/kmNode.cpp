@@ -5,6 +5,7 @@
 #include <QtWidgets/QApplication>
 #include <QMouseEvent>
 #include "kmNode.h"
+#include <QDebug>
 
 inline QString defaultText(kmNodeType type) {
     switch (type) {
@@ -63,7 +64,7 @@ const Style &kmNode::getStyle() const {
 
 void kmNode::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
-        m_lastMousePosition = event->globalPosition();
+        m_lastMousePosition = event->globalPos();
         qDebug() << "position set to " << m_lastMousePosition.x() << " " << m_lastMousePosition.y();
         emit scrollBarBeginMove();
     }
@@ -72,8 +73,8 @@ void kmNode::mousePressEvent(QMouseEvent *event) {
 
 void kmNode::mouseMoveEvent(QMouseEvent *event) {
     if (m_type == kmNodeType::BaseTopic && event->buttons().testFlag(Qt::LeftButton)) {
-        emit scrollBarPosUpdate(event->globalPosition().x() - m_lastMousePosition.x(),
-                                event->globalPosition().y() - m_lastMousePosition.y());
+        emit scrollBarPosUpdate(event->globalPos().x() - m_lastMousePosition.x(),
+                                event->globalPos().y() - m_lastMousePosition.y());
     }
     event->ignore();
 }

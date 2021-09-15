@@ -10,8 +10,7 @@ kmPaintWidget::kmPaintWidget(QWidget *parent) : QWidget(parent) {
 }
 
 kmPaintWidget::~kmPaintWidget() {
-    if (m_painter != nullptr)
-        delete m_painter;
+    delete m_painter;
 }
 
 void kmPaintWidget::createPainter(QWidget *content, kmNode *base_node) {

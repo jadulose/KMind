@@ -34,11 +34,15 @@ public slots:
 
     void setSelectedNode(kmNode *node);
 
+    void node_newSubtopic();
+
 private:
     QWidget *m_container;
     kmNode *m_baseNode;
     kmNode *m_selectedNode;
     bool m_NotFirstOpen = true;
+
+    void paintAll(QPainter *painter, kmNode *start_node);
 };
 
 

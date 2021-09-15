@@ -60,6 +60,9 @@ private:
     QList<kmNode *> m_children;
 
     QPoint m_lastMousePosition;
+public:
+    QPoint m_tempPos;
+    void acceptTempPos();
 };
 
 

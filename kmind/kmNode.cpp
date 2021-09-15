@@ -52,6 +52,7 @@ kmNode *kmNode::newSubtopic() {
         type = kmNodeType::SubTopic;
     auto *node = new kmNode(m_parent, this, m_skeleton, (int) m_children.size() + 1, level, type);
     m_children.append(node);
+    qDebug() <<"我被创建了";
     return node;
 }
 
@@ -85,6 +86,10 @@ void kmNode::setPreferredSize() {
     this->setFixedWidth(need_rect.width());
     this->setFixedHeight(need_rect.height());
     m_label->move(need_rect.topLeft());
+}
+
+void kmNode::acceptTempPos() {
+    this->move(m_tempPos);
 }
 
 //void kmNode::mouseReleaseEvent(QMouseEvent *event) {

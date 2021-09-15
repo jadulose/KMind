@@ -43,6 +43,7 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
 
     connect(m_baseNode, SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
             SLOT(setSelectedNode(kmNode*)));
+    connect(ui->actionSubtopic, SIGNAL(triggered(bool)), ui->scrollAreaWidgetContents, SLOT(node_newSubtopic()));
 }
 
 kmMainWindow::~kmMainWindow() {

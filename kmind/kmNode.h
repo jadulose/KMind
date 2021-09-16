@@ -17,15 +17,17 @@ public:
 
     ~kmNode() override;
 
-//    void newTopicAfter();
+    kmNode *newTopicAfter();
 
-//    void newTopicBefore();
+    kmNode *newTopicBefore();
 
     kmNode *newSubtopic();
 
     [[nodiscard]] const QList<kmNode *> &getChildren() const;
 
     [[nodiscard]] const Style &getStyle() const;
+
+    [[nodiscard]] kmNode *getFatherNode() const { return m_parentNode; }
 
     void setPreferredSize();
 
@@ -57,11 +59,13 @@ private:
     QWidget *m_parent;
     kmNode *m_parentNode;
     Skeleton *m_skeleton;
-    QList<kmNode *> m_children;
+    QList<kmNode *> m_children;  // 考虑换成链表吧
 
     QPoint m_lastMousePosition;
+
 public:
     QPoint m_tempPos;
+
     void acceptTempPos();
 };
 

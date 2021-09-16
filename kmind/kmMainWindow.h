@@ -35,6 +35,8 @@ private slots:
 
     void moveScrollBarPos(int v, int h);
 
+    void keyPressEvent(QKeyEvent *event) override;
+
 private:
     Ui::kmMainWindow *ui;
     kmNode *m_baseNode;

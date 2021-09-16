@@ -36,6 +36,18 @@ public slots:
 
     void node_newSubtopic();
 
+    void node_newTopicAfter();
+
+    void node_newTopicBefore();
+
+    void node_moveLeft();
+
+    void node_moveRight();
+
+    void node_moveUp();
+
+    void node_moveDown();
+
 private:
     QWidget *m_container;
     kmNode *m_baseNode;
@@ -43,6 +55,7 @@ private:
     bool m_NotFirstOpen = true;
 
     void paintAll(QPainter *painter, kmNode *start_node);
+    void initNode(kmNode *node);
 };
 
 

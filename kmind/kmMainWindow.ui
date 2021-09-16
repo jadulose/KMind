@@ -70,6 +70,9 @@
           </property>
           <item>
            <widget class="QScrollArea" name="scrollArea">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
@@ -103,6 +106,9 @@
         </property>
         <item>
          <widget class="QPushButton" name="pushButton_Panel">
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
           <property name="text">
            <string>Panel</string>
           </property>
@@ -117,6 +123,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Add">
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
           <property name="text">
            <string>Add</string>
           </property>
@@ -140,6 +149,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Topic">
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
           <property name="text">
            <string>Topic</string>
           </property>
@@ -157,6 +169,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Overview">
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
           <property name="text">
            <string>Overview</string>
           </property>
@@ -174,6 +189,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Zoom">
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
           <property name="text">
            <string>Zoom</string>
           </property>
@@ -411,10 +429,16 @@
    <property name="text">
     <string>Topic After</string>
    </property>
+   <property name="shortcut">
+    <string>Return</string>
+   </property>
   </action>
   <action name="actionTopic_Before">
    <property name="text">
     <string>Topic Before</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Return</string>
    </property>
   </action>
   <action name="actionParent_Topic">

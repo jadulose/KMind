@@ -37,15 +37,15 @@ void kmPaintWidget::setSelectedNode(kmNode *node) {
     this->repaint();
 }
 
-inline void moveTo(QWidget *label, int x, int y) {
-    label->move(x - label->width() / 2, y - label->height() / 2);
-}
+//inline void moveTo(QWidget *label, int x, int y) {
+//    label->move(x - label->width() / 2, y - label->height() / 2);
+//}
+//
+//inline void moveLeftTo(QWidget *label, int x, int y) {
+//    label->move(x, y - label->height() / 2);
+//}
 
-inline void moveLeftTo(QWidget *label, int x, int y) {
-    label->move(x, y - label->height() / 2);
-}
-
-QRect expandOutbound(const QRect &rect) {
+inline QRect expandOutbound(const QRect &rect) {
     QRect rec_o = rect;
     rec_o.setX(rec_o.x() - 3), rec_o.setY(rec_o.y() - 3);
     rec_o.setWidth(rec_o.width() + 6), rec_o.setHeight(rec_o.height() + 6);
@@ -76,13 +76,13 @@ inline void acceptTempPos(kmNode *node) {
 QPoint rearrageNodes(kmNode *start_node) {  // TODO 到底排列的点是位于中间还是左上角
     const auto &children = start_node->getChildren();
     if (children.empty())
-        return {0, 60};
+        return {30, 60};
     else if (children.size() == 1) {
         const auto &node = children.at(0);
         const auto &center = start_node->geometry().center();
-        tempMoveTo(node, {center.x() + start_node->width() / 2 + 50, center.y()});
         QPoint p = rearrageNodes(node);
         tempMove(node, {0, p.x()});
+        tempMoveTo(node, {center.x() + start_node->width() / 2 + 50, center.y()});
         return {p.x(), p.y()};
     } else {
         bool is_begin_x = true;
@@ -90,9 +90,9 @@ QPoint rearrageNodes(kmNode *start_node) {  // TODO 到底排列的点是位于�
         QPoint center = start_node->geometry().center() + QPoint(start_node->width() / 2 + 50, 0);
         QPoint p;
         for (const auto &child: children) {
-            tempMoveTo(child, center);
             p = rearrageNodes(child);
             tempMove(child, {0, p.x()});
+            tempMoveTo(child, center + QPoint{0, p.x()});
             center += {0, p.y()};
             if (is_begin_x) {
                 begin_x = p.x();
@@ -142,6 +142,8 @@ void kmPaintWidget::paint(QPainter *painter, QPaintEvent *event) {
 
     // 第四步，绘制
     paintAll(painter, m_baseNode);
+
+    this->setFocus();
 }
 
 void kmPaintWidget::mousePressEvent(QMouseEvent *event) {
@@ -152,8 +154,58 @@ void kmPaintWidget::mousePressEvent(QMouseEvent *event) {
 void kmPaintWidget::node_newSubtopic() {
     if (m_selectedNode == nullptr)
         return;
-    auto *node = m_selectedNode->newSubtopic();
+    initNode(m_selectedNode->newSubtopic());
+}
+
+void kmPaintWidget::node_newTopicAfter() {
+    if (m_selectedNode == nullptr)
+        return;
+    if (m_selectedNode == m_baseNode) {
+        node_newSubtopic();
+        return;
+    }
+    initNode(m_selectedNode->newTopicAfter());
+}
+
+void kmPaintWidget::node_newTopicBefore() {
+    if (m_selectedNode == nullptr)
+        return;
+    if (m_selectedNode == m_baseNode) {
+        node_newSubtopic();
+        return;
+    }
+    initNode(m_selectedNode->newTopicBefore());
+}
+
+void kmPaintWidget::initNode(kmNode *node) {
+    connect(node, SIGNAL(selectedNodeChange(kmNode * )), this, SLOT(setSelectedNode(kmNode * )));
     node->show();
-    connect(node, SIGNAL(selectedNodeChange(kmNode*)), this, SLOT(setSelectedNode(kmNode*)));
-    this->repaint();
+    setSelectedNode(node);
+}
+
+void kmPaintWidget::node_moveLeft() {
+    if (m_selectedNode == m_baseNode)
+        return;
+    setSelectedNode(m_selectedNode->getFatherNode());
+}
+
+void kmPaintWidget::node_moveRight() {
+    if (m_selectedNode->getChildren().empty())
+        return;
+    setSelectedNode(m_selectedNode->getChildren().at(m_selectedNode->getChildren().size() / 2));
+}
+
+void kmPaintWidget::node_moveUp() {
+    if (m_selectedNode == m_baseNode)
+        return;
+    int index = m_selectedNode->getFatherNode()->getChildren().indexOf(m_selectedNode);
+    setSelectedNode(m_selectedNode->getFatherNode()->getChildren().at(index > 0 ? index - 1 : 0));
+}
+
+void kmPaintWidget::node_moveDown() {
+    if (m_selectedNode == m_baseNode)
+        return;
+    const auto &children = m_selectedNode->getFatherNode()->getChildren();
+    int index = children.indexOf(m_selectedNode) + 1;
+    setSelectedNode(children.at(index < children.size() ? index : index - 1));
 }

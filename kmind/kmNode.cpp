@@ -43,6 +43,20 @@ kmNode::~kmNode() {
     delete m_label;
 }
 
+kmNode *kmNode::newTopicBefore() {
+    auto *node = new kmNode(m_parent, m_parentNode, m_skeleton, (int) m_parentNode->m_children.size() + 1, m_level,
+                            m_type);
+    m_parentNode->m_children.insert(m_parentNode->m_children.indexOf(this), node);
+    return node;
+}
+
+kmNode *kmNode::newTopicAfter() {
+    auto *node = new kmNode(m_parent, m_parentNode, m_skeleton, (int) m_parentNode->m_children.size() + 1, m_level,
+                            m_type);
+    m_parentNode->m_children.insert(m_parentNode->m_children.indexOf(this) + 1, node);
+    return node;
+}
+
 kmNode *kmNode::newSubtopic() {
     int level = m_level + 1;
     kmNodeType type;
@@ -52,7 +66,6 @@ kmNode *kmNode::newSubtopic() {
         type = kmNodeType::SubTopic;
     auto *node = new kmNode(m_parent, this, m_skeleton, (int) m_children.size() + 1, level, type);
     m_children.append(node);
-    qDebug() <<"我被创建了";
     return node;
 }
 

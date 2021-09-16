@@ -12,6 +12,7 @@ kmPaintWidget::kmPaintWidget(QWidget *parent) : QWidget(parent) {
 }
 
 kmPaintWidget::~kmPaintWidget() {
+    delete m_textedit;
 }
 
 void kmPaintWidget::createPainter(QWidget *content, kmNode *base_node) {
@@ -19,7 +20,9 @@ void kmPaintWidget::createPainter(QWidget *content, kmNode *base_node) {
     m_baseNode = base_node;
     m_selectedNode = base_node;
     m_editingNode = nullptr;
-    m_textedit = new QTextEdit(this);
+    m_textedit = new kmNodeEdit(this);
+    connect(m_textedit,SIGNAL(finish()),this,SLOT(node_edit_finish()));
+    m_textedit->hide();
 }
 
 void kmPaintWidget::paintEvent(QPaintEvent *event) {
@@ -145,7 +148,7 @@ void kmPaintWidget::paint(QPainter *painter, QPaintEvent *event) {
     // 第四步，绘制
     paintAll(painter, m_baseNode);
 
-    this->setFocus();
+    //this->setFocus();
 }
 
 void kmPaintWidget::mousePressEvent(QMouseEvent *event) {
@@ -188,16 +191,22 @@ void kmPaintWidget::initNode(kmNode *node) {
     connect(node, SIGNAL(editingNodeChange(kmNode*)), this, SLOT(editingNodeChange(kmNode*)));
     this->repaint();
 
+    startEditingNode(node);
+
     setSelectedNode(node);
 }
 
 void kmPaintWidget::node_moveLeft() {
+    if(!m_selectedNode)
+        return;
     if (m_selectedNode == m_baseNode)
         return;
     setSelectedNode(m_selectedNode->getFatherNode());
 }
 
 void kmPaintWidget::node_moveRight() {
+    if(!m_selectedNode)
+        return;
     if (m_selectedNode->getChildren().empty())
         return;
     setSelectedNode(m_selectedNode->getChildren().at(m_selectedNode->getChildren().size() / 2));
@@ -219,6 +228,11 @@ void kmPaintWidget::node_moveDown() {
 
 }
 
+void kmPaintWidget::set_root(QMainWindow *wnd)
+{
+    this->m_root = wnd;
+}
+
 void kmPaintWidget::editingNodeChange(kmNode *node)
 {
     startEditingNode(node);
@@ -228,6 +242,7 @@ void kmPaintWidget::startEditingNode(kmNode *node)
 {
     m_editingNode = node;
     m_textedit->setText(node->text());
+    m_textedit->selectAll();
 
     if(m_textedit->isHidden())
     {
@@ -238,6 +253,7 @@ void kmPaintWidget::startEditingNode(kmNode *node)
         m_textedit->resize(node->size());
         m_textedit->show();
         m_textedit->setFocus();
+        m_textedit->raise();
 }
 
 void kmPaintWidget::finishEditingNode()
@@ -248,4 +264,11 @@ void kmPaintWidget::finishEditingNode()
         QFontMetrics qfm(m_editingNode->font());
         m_editingNode->setFixedWidth(20+qfm.horizontalAdvance(m_textedit->toPlainText()));
     }
+    m_root->setFocus();
+    repaint();
+}
+
+void kmPaintWidget::node_edit_finish()
+{
+    finishEditingNode();
 }

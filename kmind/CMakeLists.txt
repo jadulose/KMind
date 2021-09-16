@@ -9,6 +9,8 @@ set(PROJECT_SOURCES
         kmNodeType.h
         )
 
+include_directories(.)
+
 if (NOT DEBUG_SUFFIX MATCHES "d")
     set(PROJECT_SOURCES WIN32 ${PROJECT_SOURCES})
 endif()

@@ -94,6 +94,12 @@ void kmNode::mouseMoveEvent(QMouseEvent *event) {
     event->accept();
 }
 
+void kmNode::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    m_label->hide();
+    emit editingNodeChange(this);
+}
+
 void kmNode::setPreferredSize() {
     QRect need_rect = m_style.getShape()->getRect(m_label->size());
     this->setFixedWidth(need_rect.width());
@@ -110,3 +116,15 @@ void kmNode::acceptTempPos() {
 //        emit scrollBarEndMove();
 //    event->ignore();
 //}
+
+QString kmNode::text()
+{
+    return m_label->text();
+}
+
+void kmNode::setText(QString t)
+{
+    m_label->show();
+    m_label->setText(t);
+    m_label->adjustSize();
+}

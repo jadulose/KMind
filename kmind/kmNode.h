@@ -31,6 +31,9 @@ public:
 
     void setPreferredSize();
 
+    QString text();
+    void setText(QString t);
+
 //    [[nodiscard]] const QLabel *getLabel() const { return m_label; }
 
 signals:
@@ -41,12 +44,15 @@ signals:
 
     void selectedNodeChange(kmNode *node);
 
+    void editingNodeChange(kmNode *node);
+
 private slots:
 
     void mousePressEvent(QMouseEvent *event) override;
 
     void mouseMoveEvent(QMouseEvent *event) override;
 
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 //    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:

@@ -18,6 +18,8 @@ void kmPaintWidget::createPainter(QWidget *content, kmNode *base_node) {
     m_container = content;
     m_baseNode = base_node;
     m_selectedNode = base_node;
+    m_editingNode = nullptr;
+    m_textedit = new QTextEdit(this);
 }
 
 void kmPaintWidget::paintEvent(QPaintEvent *event) {
@@ -147,6 +149,7 @@ void kmPaintWidget::paint(QPainter *painter, QPaintEvent *event) {
 }
 
 void kmPaintWidget::mousePressEvent(QMouseEvent *event) {
+    finishEditingNode();
     setSelectedNode(nullptr);
     event->ignore();
 }
@@ -180,6 +183,11 @@ void kmPaintWidget::node_newTopicBefore() {
 void kmPaintWidget::initNode(kmNode *node) {
     connect(node, SIGNAL(selectedNodeChange(kmNode * )), this, SLOT(setSelectedNode(kmNode * )));
     node->show();
+
+    connect(node, SIGNAL(selectedNodeChange(kmNode*)), this, SLOT(setSelectedNode(kmNode*)));
+    connect(node, SIGNAL(editingNodeChange(kmNode*)), this, SLOT(editingNodeChange(kmNode*)));
+    this->repaint();
+
     setSelectedNode(node);
 }
 
@@ -208,4 +216,36 @@ void kmPaintWidget::node_moveDown() {
     const auto &children = m_selectedNode->getFatherNode()->getChildren();
     int index = children.indexOf(m_selectedNode) + 1;
     setSelectedNode(children.at(index < children.size() ? index : index - 1));
+
+}
+
+void kmPaintWidget::editingNodeChange(kmNode *node)
+{
+    startEditingNode(node);
+}
+
+void kmPaintWidget::startEditingNode(kmNode *node)
+{
+    m_editingNode = node;
+    m_textedit->setText(node->text());
+
+    if(m_textedit->isHidden())
+    {
+        m_textedit->setWindowFlag(Qt::Widget);
+        m_textedit->show();
+    }
+        m_textedit->move(node->pos());
+        m_textedit->resize(node->size());
+        m_textedit->show();
+        m_textedit->setFocus();
+}
+
+void kmPaintWidget::finishEditingNode()
+{
+    if(!m_textedit->isHidden()){
+        m_editingNode->setText(m_textedit->toPlainText());
+        m_textedit->hide();
+        QFontMetrics qfm(m_editingNode->font());
+        m_editingNode->setFixedWidth(20+qfm.horizontalAdvance(m_textedit->toPlainText()));
+    }
 }

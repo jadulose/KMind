@@ -96,7 +96,6 @@ void kmNode::mouseMoveEvent(QMouseEvent *event) {
 
 void kmNode::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    m_label->hide();
     emit editingNodeChange(this);
 }
 

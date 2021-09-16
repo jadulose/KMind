@@ -29,6 +29,8 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
     Skeleton::ALL_SKELETON.append(skeleton);
 
     m_baseNode = new kmNode(ui->scrollAreaWidgetContents, nullptr, skeleton, 1, 1, kmNodeType::BaseTopic);
+    ui->scrollArea->setFocusPolicy(Qt::NoFocus);
+    ui->scrollAreaWidgetContents->set_root(this);
     ui->scrollAreaWidgetContents->createPainter(ui->page, m_baseNode);
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
@@ -93,8 +95,8 @@ void kmMainWindow::switchPanel() {
 }
 
 void kmMainWindow::keyPressEvent(QKeyEvent *event) {
+    qDebug() << "按键了" << event;
     switch (event->key()) {
-        qDebug() << "按键了" << event;
         case Qt::Key_Tab:
             ui->scrollAreaWidgetContents->node_newSubtopic();
             break;

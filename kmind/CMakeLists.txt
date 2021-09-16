@@ -7,6 +7,7 @@ set(PROJECT_SOURCES
         kmPaintWidget.h kmNode.h style.h
         styleUtil.h formwork.h
         kmNodeType.h
+        kmnodeedit.h kmnodeedit.cpp
         )
 
 include_directories(.)

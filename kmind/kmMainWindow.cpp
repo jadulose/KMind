@@ -7,11 +7,16 @@
 #include "kmMainWindow.h"
 #include "ui_kmMainWindow.h"
 #include <QScrollBar>
+#include <QKeyEvent>
+#include <QDebug>
 
 kmMainWindow::kmMainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::kmMainWindow) {
     ui->setupUi(this);
     ui->tabWidget->setVisible(false);
+//    ui->scrollArea->horizontalScrollBar()->setFocusPolicy(Qt::NoFocus);
+//    ui->scrollArea->verticalScrollBar()->setFocusPolicy(Qt::NoFocus);
+//    this->installEventFilter(ui->scrollAreaWidgetContents);
 
 //    读取，加载样式信息的代码暂时放在这
     auto shape = new Shape();
@@ -24,12 +29,6 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
     Skeleton::ALL_SKELETON.append(skeleton);
 
     m_baseNode = new kmNode(ui->scrollAreaWidgetContents, nullptr, skeleton, 1, 1, kmNodeType::BaseTopic);
-    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
-            SLOT(setSelectedNode(kmNode*)));
-    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
-            SLOT(setSelectedNode(kmNode*)));
-    connect(m_baseNode->newSubtopic(), SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
-            SLOT(setSelectedNode(kmNode*)));
     ui->scrollAreaWidgetContents->createPainter(ui->page, m_baseNode);
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
@@ -41,9 +40,11 @@ kmMainWindow::kmMainWindow(QWidget *parent) :
     connect(m_baseNode, SIGNAL(scrollBarBeginMove()), this, SLOT(beginScrollBarMove()));
     connect(m_baseNode, SIGNAL(scrollBarPosUpdate(int, int)), this, SLOT(moveScrollBarPos(int, int)));
 
-    connect(m_baseNode, SIGNAL(selectedNodeChange(kmNode*)), ui->scrollAreaWidgetContents,
-            SLOT(setSelectedNode(kmNode*)));
+    connect(m_baseNode, SIGNAL(selectedNodeChange(kmNode * )), ui->scrollAreaWidgetContents,
+            SLOT(setSelectedNode(kmNode * )));
     connect(ui->actionSubtopic, SIGNAL(triggered(bool)), ui->scrollAreaWidgetContents, SLOT(node_newSubtopic()));
+    connect(ui->actionTopic_After, SIGNAL(triggered(bool)), ui->scrollAreaWidgetContents, SLOT(node_newTopicAfter()));
+    connect(ui->actionTopic_Before, SIGNAL(triggered(bool)), ui->scrollAreaWidgetContents, SLOT(node_newTopicBefore()));
 }
 
 kmMainWindow::~kmMainWindow() {
@@ -89,6 +90,32 @@ void kmMainWindow::beginScrollBarMove() {
 
 void kmMainWindow::switchPanel() {
     ui->tabWidget->setVisible(!ui->tabWidget->isVisible());
+}
+
+void kmMainWindow::keyPressEvent(QKeyEvent *event) {
+    switch (event->key()) {
+        qDebug() << "按键了" << event;
+        case Qt::Key_Tab:
+            ui->scrollAreaWidgetContents->node_newSubtopic();
+            break;
+        case Qt::Key_Backspace:
+        case Qt::Key_Delete:
+
+            break;
+        case Qt::Key_Left:
+            ui->scrollAreaWidgetContents->node_moveLeft();
+            break;
+        case Qt::Key_Right:
+            ui->scrollAreaWidgetContents->node_moveRight();
+            break;
+        case Qt::Key_Up:
+            ui->scrollAreaWidgetContents->node_moveUp();
+            break;
+        case Qt::Key_Down:
+            ui->scrollAreaWidgetContents->node_moveDown();
+            break;
+    }
+    event->accept();
 }
 
 //void kmMainWindow::resizeEvent(QResizeEvent *event) {

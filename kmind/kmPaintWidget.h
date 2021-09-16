@@ -7,6 +7,8 @@
 
 #include <QWidget>
 #include "kmNode.h"
+#include <QTextEdit>
+#include <QFontMetrics>
 
 class kmPaintWidget : public QWidget {
 Q_OBJECT
@@ -19,6 +21,9 @@ public:
     void createPainter(QWidget *content, kmNode *base_node);
 
     void paint(QPainter *painter, QPaintEvent *event);
+
+    void startEditingNode(kmNode *node);
+    void finishEditingNode();
 
 signals:
 
@@ -36,10 +41,15 @@ public slots:
 
     void node_newSubtopic();
 
+    void editingNodeChange(kmNode *node);
+
 private:
     QWidget *m_container;
     kmNode *m_baseNode;
     kmNode *m_selectedNode;
+    kmNode *m_editingNode;
+
+    QTextEdit *m_textedit;
     bool m_NotFirstOpen = true;
 
     void paintAll(QPainter *painter, kmNode *start_node);

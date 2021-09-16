@@ -39,4 +39,4 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 add_subdirectory(kmind)
 
 # copy dlls on Windows
-include(${PROJECT_DIR}/copy_dlls.cmake)
+#include(${PROJECT_DIR}/copy_dlls.cmake)
